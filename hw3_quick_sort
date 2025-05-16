@@ -1,0 +1,48 @@
+def quick_sort(array, start, end, depth=0):
+    indent = "  " * depth  # 為了顯示遞迴層級
+    if start >= end:
+        return
+
+    pivot_index = start
+    pivot_value = array[pivot_index]
+    left = start + 1
+    right = end
+
+    print(f"{indent}QuickSort 呼叫區間: {array[start:end+1]}")
+    print(f"{indent}選定基準點 pivot = {pivot_value}")
+
+    while left <= right:
+        # 從右邊開始往左找小於 pivot 的值
+        while right >= left and array[right] >= pivot_value:
+            right = right - 1
+
+        # 從左邊開始往右找大於 pivot 的值
+        while left <= right and array[left] <= pivot_value:
+            left = left + 1
+
+        # 若找到一對 left/right 應交換的元素
+        if left < right:
+            print(f"{indent}交換 left={array[left]} 與 right={array[right]}")
+            temp = array[left]
+            array[left] = array[right]
+            array[right] = temp
+
+    # 最後將 pivot 與右指標處的值交換
+    print(f"{indent}交換 pivot={array[pivot_index]} 與 array[{right}]={array[right]}")
+    temp = array[pivot_index]
+    array[pivot_index] = array[right]
+    array[right] = temp
+
+    print(f"{indent}排序結果: {array[start:end+1]}\n")
+
+    # 遞迴處理左邊與右邊子陣列
+    quick_sort(array, start, right - 1, depth + 1)
+    quick_sort(array, right + 1, end, depth + 1)
+
+
+# === 主程式測試 ===
+
+data = [33, 67, 8, 13, 54, 119, 3, 84, 25, 41]
+print("原始資料:", data)
+quick_sort(data, 0, len(data) - 1)
+print("排序後結果:", data)
